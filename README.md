@@ -1,29 +1,24 @@
-cat > README.md << 'EOF'
-# Proxy Nginx pour VPS (167.99.88.149)
+# Proxy Nginx pour VPS Canada (138.197.140.123)
 
-Proxy Nginx déployé sur Google Cloud Run pour rediriger le trafic TCP vers le VPS principal.
+Proxy Nginx déployé sur Google Cloud Run pour rediriger le trafic TCP vers le VPS au Canada.
 
 ## Configuration
-- **VPS cible** : `167.99.88.149:443`
+- **VPS cible** : `138.197.140.123:443`
 - **Port d'écoute du proxy** : `8080`
-- **Région du VPS** : `europe-west2` (Londres, UK)
-- **Région Cloud Run** : `europe-west2` (Londres, UK) – alignée avec le VPS
-- **Type de proxy** : TCP Stream (Layer 4)
+- **Région VPS** : Canada (physique)
+- **Région Cloud Run** : `northamerica-northeast1` (Montréal) – alignée géographiquement
+- **Type de proxy** : TCP Stream (Layer 4) avec keepalive
 - **Usage** : Tunnel pour Xray/3x-ui (VPN)
 
-## Fichiers
-- `nginx.conf` : Configuration Nginx optimisée (keepalive, retries, timeouts)
-- `Dockerfile` : Image Nginx:alpine avec copie de la config
-- `README.md` : Ce fichier
-
-## Déploiement sur Cloud Run (région Londres)
+## Déploiement
 ```bash
-# Déploiement initial
-gcloud run deploy v2ray-proxy \
+gcloud run deploy canada-proxy \
   --source . \
   --platform managed \
-  --region europe-west2 \
+  --region northamerica-northeast1 \
   --allow-unauthenticated \
   --port 8080 \
   --memory 256Mi \
-  --timeout 3600
+  --cpu 1 \
+  --timeout 3600 \
+  --service-account mboka-kitoko@project-35c16924-9301-4126-9f5.iam.gserviceaccount.com
